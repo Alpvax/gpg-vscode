@@ -1,0 +1,50 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "gas",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.gpg-gas",
+				"match": "\\b(if|else|while|break|continue|forever|return|sitnspin|abort)\\b"
+			}]
+    },
+    "types": {
+      "patterns": [{
+        "name": "entity.name.type.gpg-gas",
+        "match": "\\b(bool|int|float|string|void|shared|property|hidden|doc|Goid)\\b"
+      }]
+    },
+		"strings": {
+			"name": "string.quoted.double.gpg-gas",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.gpg-gas",
+					"match": "\\\\."
+				}
+			]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.decimal.gpg-gas",
+          "match": "[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?"
+        },
+        {
+          "name": "constant.numeric.hexadecimal.gpg-gas",
+          "match": "[+-]?0[xX][0-9a-zA-Z]+"
+        }
+      ]
+    }
+	},
+	"scopeName": "source.gas"
+}
