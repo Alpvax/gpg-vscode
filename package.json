@@ -1,25 +1,40 @@
 {
-    "name": "gpg-syntax",
-    "displayName": "GasPoweredDSSyntax",
-    "description": "Syntax hightlighting for .gas and .skrit files",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.29.0"
-    },
-    "categories": [
-        "Programming Languages"
+  "name": "gpg-syntax",
+  "displayName": "GasPoweredDSSyntax",
+  "description": "Syntax hightlighting for .gas and .skrit files",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.29.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "gpg-skrit",
+        "aliases": ["skrit", "gpg-skrit"],
+        "extensions": [".skrit"],
+        "configuration": "./language-config/skrit.json"
+      },
+      {
+        "id": "gpg-gas",
+        "aliases": ["gas", "gpg-gas"],
+        "extensions": [".gas"],
+        "configuration": "./language-config/gas.json"
+      }
     ],
-    "contributes": {
-        "languages": [{
-            "id": "gpg-gas",
-            "aliases": ["gas", "gpg-gas"],
-            "extensions": [".gas",".skrit"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "gpg-gas",
-            "scopeName": "source.gas",
-            "path": "./syntaxes/gpg-gas.tmLanguage.json"
-        }]
-    }
+    "grammars": [
+      {
+        "language": "gpg-skrit",
+        "scopeName": "source.gpg-skrit",
+        "path": "./syntaxes/gpg-skrit.tmLanguage.json"
+      },
+      {
+        "language": "gpg-gas",
+        "scopeName": "source.gpg-gas",
+        "path": "./syntaxes/gpg-gas.tmLanguage.json"
+      }
+    ]
+  }
 }

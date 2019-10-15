@@ -1,6 +1,8 @@
 # gpg-syntax README
 
-This is the README for your extension "gpg-syntax". After writing up a brief description, we recommend including the following sections.
+VSCode syntax highlighting for Gas Powered Games `gas` and `skrit` files. (Dungeon Siege).
+
+`*.skrit` syntax taken from [here (web archive)](http://web.archive.org/web/20130502070924/http://scottbilas.com/files/dungeon_siege/Skrit.pdf)
 
 ## Features
 

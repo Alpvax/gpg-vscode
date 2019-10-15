@@ -1,0 +1,201 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "gpg-skrit",
+  "patterns": [
+    {
+      "include": "#comments-header"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#values"
+    },
+    {
+      "include": "#variables"
+    }
+  ],
+  "repository": {
+    "comments-header": {
+      "patterns": [
+        {
+          "begin": "\\A/{78}",
+          "end": "^/{78}",
+          "name": "comment.block.header.gpg-skrit.header",
+          "patterns": [{
+            "match": "^(?!//)",
+            "name": "invalid.illegal.non-comment-in-header.gpg-skrit"
+          }]
+        }
+      ]
+    },
+    "comments": {
+			"patterns": [
+				{
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.gpg-skrit"
+						}
+					},
+					"match": "/\\*\\*/",
+					"name": "comment.block.empty.gpg-skrit"
+				},
+				{
+					"include": "#comments-inline"
+				}
+			]
+		},
+    "comments-inline": {
+			"patterns": [
+				{
+					"begin": "/\\*",
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.gpg-skrit"
+						}
+					},
+					"end": "\\*/",
+					"name": "comment.block.gpg-skrit"
+        },
+				{
+					"begin": "(^[ \\t]+)?(?=//)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.gpg-skrit"
+						}
+					},
+					"end": "(?!\\G)",
+					"patterns": [
+						{
+							"begin": "//",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.comment.gpg-skrit"
+								}
+							},
+							"end": "\\n",
+							"name": "comment.line.double-slash.gpg-skrit"
+						}
+					]
+				}
+			]
+		},
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.gpg-skrit",
+          "match": "\\b(if|else|while|break|continue|forever|return|sitnspin|abort)\\b"
+        },
+        {
+          "name": "keyword.other.event.gpg-skrit",
+          "match": "\\b(event|trigger|at|msec|frames)\\b"
+        },
+        {
+          "name": "keyword.other.state.gpg-skrit",
+          "match": "\\b(state|poll|transition|and|startup|setstate|->)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [{
+        "name": "entity.name.type.gpg-skrit",
+        "match": "\\b(bool|int|float|string|void|Goid)\\b"
+      },
+      {
+        "name": "storage.type.gpg-skrit",
+        "match": "\\b(shared|property|hidden|doc)\\b"
+      }]
+    },
+    "constants": {
+      "patterns": [{
+          "name": "constant.language.gpg-skrit",
+          "match": "\\b(true|false|null)\\b"
+        },
+        {
+          "name": "variable.language.special.gpg-skrit",
+          "match": "\\b(__LINE__|__NAME__|this|vm|owner)\\b"
+        }
+      ]
+    },
+    "preprocess": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.gpg-skrit",
+          "match": "\\b(#include|#option)\\b"
+        },
+        {
+          "name": "meta.preprocessor.only.gpg-skrit",
+          "begin": "\\b#only\\s*\\(",
+          "end": "\\s*(\\w+)\\s*\\",
+          "patterns": [{
+            "name": "variable.name.only.gpg-skrit"
+          }]
+        },
+        {
+          "begin": "\\[\\[",
+          "end": "\\]\\]",
+          "patterns": [
+            { "include": "$self" }
+          ]
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.gpg-skrit",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.gpg-skrit",
+          "match": "\\\\([abvtnfr\"\\\\]|\\x[0-9a-fA-F]{2})"
+        },
+        {
+          "name": "invalid.illegal.unrecognized-string-escape.gpg-skrit",
+          "match": "\\\\[^abvtnfr\"\\x]"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.decimal.gpg-skrit",
+          "match": "[+-]?\\d+(\\.\\d+)?([eE][+-]?\\d+)?"
+        },
+        {
+          "name": "constant.numeric.hexadecimal.gpg-skrit",
+          "match": "[+-]?0[xX][0-9a-zA-Z]+"
+        },
+        {
+          "name": "constant.numeric.fourcc.gpg-skrit",
+          "match": "'[0-9a-zA-Z]{,4}'"
+        }
+      ]
+    },
+    "values": {
+      "patterns": [
+        {
+          "include": "#constants"
+        },
+        {
+          "include": "#numbers"
+        },
+        {
+          "include": "#strings"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [{
+        "name": "variable.other.user.gpg-skrit",
+        "match": "\\b[_a-zA-Z]\\w*\\$(?=\\W)"
+      }]
+    }
+  },
+  "scopeName": "source.gpg-skrit"
+}
