@@ -3,16 +3,22 @@
   "name": "gpg-skrit",
   "patterns": [
     {
-      "include": "#comments-header"
+      "begin": "\\A/{78}",
+      "end": "^/{78}",
+      "name": "comment.block.header.gpg-skrit",
+      "patterns": [{
+        "match": "^(?!//)",
+        "name": "invalid.illegal.non-comment-in-header.gpg-skrit"
+      }]
     },
     {
-      "include": "#keywords"
+      "include": "#preprocess"
     },
     {
       "include": "#comments"
     },
     {
-      "include": "#preprocess"
+      "include": "#keywords"
     },
     {
       "include": "#types"
@@ -25,70 +31,57 @@
     }
   ],
   "repository": {
-    "comments-header": {
+    "comments": {
       "patterns": [
         {
-          "begin": "\\A/{78}",
-          "end": "^/{78}",
-          "name": "comment.block.header.gpg-skrit.header",
-          "patterns": [{
-            "match": "^(?!//)",
-            "name": "invalid.illegal.non-comment-in-header.gpg-skrit"
-          }]
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.comment.gpg-skrit"
+            }
+          },
+          "match": "/\\*\\*/",
+          "name": "comment.block.empty.gpg-skrit"
+        },
+        {
+          "include": "#comments-inline"
         }
       ]
     },
-    "comments": {
-			"patterns": [
-				{
-					"captures": {
-						"0": {
-							"name": "punctuation.definition.comment.gpg-skrit"
-						}
-					},
-					"match": "/\\*\\*/",
-					"name": "comment.block.empty.gpg-skrit"
-				},
-				{
-					"include": "#comments-inline"
-				}
-			]
-		},
     "comments-inline": {
-			"patterns": [
-				{
-					"begin": "/\\*",
-					"captures": {
-						"0": {
-							"name": "punctuation.definition.comment.gpg-skrit"
-						}
-					},
-					"end": "\\*/",
-					"name": "comment.block.gpg-skrit"
+      "patterns": [
+        {
+          "begin": "/\\*",
+          "captures": {
+            "0": {
+              "name": "punctuation.definition.comment.gpg-skrit"
+            }
+          },
+          "end": "\\*/",
+          "name": "comment.block.gpg-skrit"
         },
-				{
-					"begin": "(^[ \\t]+)?(?=//)",
-					"beginCaptures": {
-						"1": {
-							"name": "punctuation.whitespace.comment.leading.gpg-skrit"
-						}
-					},
-					"end": "(?!\\G)",
-					"patterns": [
-						{
-							"begin": "//",
-							"beginCaptures": {
-								"0": {
-									"name": "punctuation.definition.comment.gpg-skrit"
-								}
-							},
-							"end": "\\n",
-							"name": "comment.line.double-slash.gpg-skrit"
-						}
-					]
-				}
-			]
-		},
+        {
+          "begin": "(^[ \\t]+)?(?=//)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.gpg-skrit"
+            }
+          },
+          "end": "(?!\\G)",
+          "patterns": [
+            {
+              "begin": "//",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.gpg-skrit"
+                }
+              },
+              "end": "\\n",
+              "name": "comment.line.double-slash.gpg-skrit"
+            }
+          ]
+        }
+      ]
+    },
     "keywords": {
       "patterns": [
         {
@@ -102,18 +95,63 @@
         {
           "name": "keyword.other.state.gpg-skrit",
           "match": "(\\b(state|poll|transition|and|startup|setstate)\\b)|->"
+        },
+        {
+          "name": "keyword.operator.comparison.gpg-skrit",
+          "match": "<|<=|(?<!-)>|>=|==|!=|<>"
+        },
+        {
+          "name": "keyword.operator.comparison.approx.gpg-skrit",
+          "comment": "Strings will do a case-insensitive test, and floats will do an “approximately equal” test using an epsilon value.",
+          "match": "~="
+        },
+        {
+          "name": "keyword.operator.logical.gpg-skrit",
+          "comment": "DO NOT SHORT CIRCUIT!",
+          "match": "\\|\\||&&"
+        },
+        {
+          "name": "keyword.operator.arithmetic.gpg-skrit",
+          "match": "\\-|\\+|\\*|(?<!/)/(?!/)|%|\\*\\*"
+        },
+        {
+          "name": "keyword.operator.assignment.gpg-skrit",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.assignment.arithmetic.gpg-skrit",
+          "match": "(\\-|\\+|\\*|(?<!/)/(?!/)|%|\\*\\*)="
+        },
+        {
+          "match": "\\?|:",
+          "name": "keyword.control.ternary.gpg-skrit"
+        },
+        {
+          "match": "\\||\\^|&",
+          "name": "keyword.operator.bitwise.gpg-skrit"
+        },
+        {
+          "match": "(\\||\\^|&)=",
+          "name": "keyword.operator.assignment.bitwise.gpg-skrit"
         }
       ]
     },
     "types": {
-      "patterns": [{
-        "name": "entity.name.type.gpg-skrit",
-        "match": "\\b(bool|int|float|string|void|Goid)\\b"
-      },
-      {
-        "name": "storage.type.gpg-skrit",
-        "match": "\\b(shared|property|hidden|doc)\\b"
-      }]
+      "patterns": [
+        {
+          "name": "entity.name.type.gpg-skrit",
+          "match": "\\b(bool|int|float|string|void|Goid)\\b"
+        },
+        {
+          "comment": "Probably incorrect. TODO: Needs work",
+          "name": "storage.type.gpg-skrit",
+          "match": "\\b(shared|property|hidden|doc)\\b"
+        },
+        {
+          "name": "entity.name.type.enum.gpg-skrit",
+          "match": "\\b(eBoundaryTest|eBoundaryCrossType|eReqRetCode|eRequest|eDependancyType|eRID|eReqFlag|eOrientMode|eAnimEvent|eJobResult|eDoJobMode|eRangeLimit|eFocusOrders|eCombatOrders|eMovementOrders|eWeaponPreference|eActorDisposition|eQPlace|eJobQ|eJobAbstractType|eGameStat|eCameraMode|eDropInvOption|eBoneFreeze|eMoodRoomType|eLogicalNodeFlags|eWorldState|eWorldEvent|eAlteration|eAnimStance|eAnimChore|eCameraOrder|eCameraInterpolate|JUSTIFICATION|eUIMessage|UI_ACTION|UI_INPUT_TYPE|UI_CONTROL_TYPE|eAxisHint|eVoiceSound|eActionOrigin|eQueryTrait|eUsageContextFlags|eTargetTypeFlags|eMagicClass|eDefendClass|eAttackClass|eInventoryLocation|eEquipSlot|ePContentType|eActorAlignment|eLifeState|ePlayerController)\\b"
+        }
+      ]
     },
     "constants": {
       "patterns": [{
